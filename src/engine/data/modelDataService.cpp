@@ -7,7 +7,7 @@
 
 #include <animation/animator.h>
 
-#include <common/mouseInteractionComponent.h>
+#include <core/mouseInteractionComponent.h>
 
 #include "modelDataService.h"
 

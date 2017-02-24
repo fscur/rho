@@ -1,41 +1,34 @@
 cmake_minimum_required(VERSION 3.0.2)
 
-if (MSVC)
-    add_definitions(-Ddata_EXPORTS)
-endif (MSVC)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Dapi_EXPORTS")
 
 include_directories(${INCLUDE_DIRS})
 include_directories(${rho_INCLUDE_DIRS}/engine)
 include_directories(${rho_INCLUDE_DIRS}/rho)
 
 link_directories(${LIBS_DIRS})
-find_package(FREEIMAGE REQUIRED)
 
 file(GLOB header_files *.h)
 file(GLOB source_files *.cpp)
 file(GLOB natvis_files *.natvis)
-file(GLOB abstractions_header_files ./abstractions/*.h)
-FILE(GLOB model_header_files ./model/*.h)
-FILE(GLOB utils_header_files ./utils/*.h)
 
-add_library(data SHARED 
-    ${source_files} 
-    ${abstractions_header_files} 
-    ${model_header_files} 
-    ${utils_header_files} 
-    ${header_files} 
-    ${natvis_files})
+add_executable(00_getting_started ${source_files} ${header_files} ${natvis_files})
 
-source_group("Header Files\\Abstractions" FILES ${abstractions_header_files})
-source_group("Header Files\\Model" FILES ${model_header_files})
-source_group("Header Files\\Utils" FILES ${utils_header_files})
-target_link_libraries(data io)
-target_link_libraries(data rendering)
-target_link_libraries(data ${FREEIMAGE_LIBRARY})
+target_link_libraries(00_getting_started application)
+target_link_libraries(00_getting_started animation)
+target_link_libraries(00_getting_started loader)
+target_link_libraries(00_getting_started data)
+
+find_package(FREETYPE REQUIRED)
+link_directories(${FREETYPE_LIBRARIES})
+include_directories(${FREETYPE_INCLUDE_DIRS})
+target_link_libraries(00_getting_started ${FREETYPE_LIBRARY})
+target_link_libraries(00_getting_started ${LIBICONV_LIBRARY})
+target_link_libraries(00_getting_started ${LIBINTL_LIBRARY})
 
 if (MINGW)
     set(install_folder ${CMAKE_CURRENT_SOURCE_DIR}/../../bin/${BIN_FOLDER})
-    install(TARGETS data RUNTIME DESTINATION ${install_folder})
+    install(TARGETS 00_getting_started RUNTIME DESTINATION ${install_folder})
 endif(MINGW)
 
 if (MSVC)
@@ -44,20 +37,20 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Fd$(IntDir)precompiled.pdb")
     
     add_custom_command(
-        TARGET data
+        TARGET 00_getting_started
         PRE_BUILD
         COMMAND ../../../../../scripts/pre_build_vc++/xcopy_n.bat \"$(SolutionDir)src\\rho\\rho.dir\\$(Configuration)\\precompiled.pdb\" \".\\$(IntDir)\")
         
     add_custom_command(
-        TARGET data
+        TARGET 00_getting_started
         PRE_BUILD
         COMMAND ../../../../../scripts/pre_build_vc++/xcopy_n.bat \"$(SolutionDir)src\\rho\\rho.dir\\$(Configuration)\\precompiled.idb\" \".\\$(IntDir)\")
         
     add_custom_command(
-        TARGET data
+        TARGET 00_getting_started
         PRE_BUILD
-        COMMAND ../../../../../scripts/pre_build_vc++/xcopy_n.bat \"$(SolutionDir)src\\rho\\rho.dir\\$(Configuration)\\precompiled.sbr\" \".\\$(IntDir)\")        
+        COMMAND ../../../../../scripts/pre_build_vc++/xcopy_n.bat \"$(SolutionDir)src\\rho\\rho.dir\\$(Configuration)\\precompiled.sbr\" \".\\$(IntDir)\")
         
 endif(MSVC)
 
-set_target_properties(data PROPERTIES FOLDER engine)
+set_target_properties(00_getting_started PROPERTIES FOLDER apps)

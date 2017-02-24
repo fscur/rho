@@ -13,7 +13,7 @@
 #include <application/application.h>
 
 #include "screen.h"
-#include "getting_startedApi.h"
+#include "api.h"
 
 #include <core/guid.h>
 
@@ -134,7 +134,7 @@ int main(int argc, char* args[])
     {
         auto appStartInfo = applicationStartInfo(executableFileName, _resourcesPath, _libraryPath);
         auto application = rho::application(appStartInfo);
-        auto screen = getting_started::screen(L"getting_started", resolution(1600, 900));
+        auto screen = getting_started::screen(L"01_command_buffer", resolution(1600, 900));
 
         application.run(&screen);
     }

@@ -10,7 +10,7 @@
 #include <core/transform.h>
 #include <core/model.h>
 #include <core/modelNode.h>
-#include <common/mouseInteractionComponent.h>
+#include <core/mouseInteractionComponent.h>
 
 #include <io/path.h>
 #include <io/fileReader.h>

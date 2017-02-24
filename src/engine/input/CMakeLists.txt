@@ -5,7 +5,7 @@ if (MSVC)
 endif (MSVC)
 
 include_directories(${INCLUDE_DIRS})
-include_directories(${rho_INCLUDE_DIRS})
+include_directories(${rho_INCLUDE_DIRS}/engine)
 include_directories(${rho_INCLUDE_DIRS}/rho)
 
 file(GLOB header_files *.h)
@@ -38,23 +38,18 @@ if (MSVC)
     add_custom_command(
         TARGET input
         PRE_BUILD
-        COMMAND ../../../../scripts/pre_build_vc++/xcopy_n.bat \"$(SolutionDir)src\\rho\\rho.dir\\$(Configuration)\\precompiled.pdb\" \".\\$(IntDir)\")
+        COMMAND ../../../../../scripts/pre_build_vc++/xcopy_n.bat \"$(SolutionDir)src\\rho\\rho.dir\\$(Configuration)\\precompiled.pdb\" \".\\$(IntDir)\")
 
     add_custom_command(
         TARGET input
         PRE_BUILD
-        COMMAND ../../../../scripts/pre_build_vc++/xcopy_n.bat \"$(SolutionDir)src\\rho\\rho.dir\\$(Configuration)\\precompiled.idb\" \".\\$(IntDir)\")
+        COMMAND ../../../../../scripts/pre_build_vc++/xcopy_n.bat \"$(SolutionDir)src\\rho\\rho.dir\\$(Configuration)\\precompiled.idb\" \".\\$(IntDir)\")
         
     add_custom_command(
         TARGET input
         PRE_BUILD
-        COMMAND ../../../../scripts/pre_build_vc++/xcopy_n.bat \"$(SolutionDir)src\\rho\\rho.dir\\$(Configuration)\\precompiled.sbr\" \".\\$(IntDir)\")
-                
-    add_custom_command(
-        TARGET input
-        POST_BUILD
-        COMMAND ../../../../scripts/post_build_vc++/project.bat $(Configuration) input)
-        
+        COMMAND ../../../../../scripts/pre_build_vc++/xcopy_n.bat \"$(SolutionDir)src\\rho\\rho.dir\\$(Configuration)\\precompiled.sbr\" \".\\$(IntDir)\")
+
 endif(MSVC)
 
 set_target_properties(input PROPERTIES FOLDER engine)
